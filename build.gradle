@@ -1,0 +1,46 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.youtube.blog'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.projectlombok:lombok')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('com.h2database:h2')
+    compile('org.springframework.boot:spring-boot-starter-mustache')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    //security tag
+    //compile('org.springframework.security:spring-security-web:4.2.2.RELEASE')
+    //compile('org.springframework.security:spring-security-config:4.2.2.RELEASE')
+    //jstl
+    compile("javax.servlet:jstl")
+    compile("org.apache.tomcat.embed:tomcat-embed-jasper")
+    //jsp 템플릿엔진
+    //mysql 추가
+    compile("mysql:mysql-connector-java")
+}
+
+test {
+    useJUnitPlatform()
+}
