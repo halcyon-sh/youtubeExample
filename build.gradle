@@ -39,6 +39,7 @@ dependencies {
     //jsp 템플릿엔진
     //mysql 추가
     compile("mysql:mysql-connector-java")
+    annotationProcessor('org.projectlombok:lombok')
 }
 
 test {
