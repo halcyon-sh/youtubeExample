@@ -1,12 +1,23 @@
 package com.youtube.blog.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
+@DynamicInsert // save(insert) 시 null인 컬럼은 insert하지 않는다.
 public class User {
 
     @Id //PK
@@ -23,7 +34,7 @@ public class User {
     @Column(nullable = false, length = 50)
     private String email;
 
-    @ColumnDefault("'user'")
+   @ColumnDefault("'user'")
     private String role; //원래 Enum을 쓰는게 좋음 //admin, user, manager
 
     @CreationTimestamp //시간 자동입력
