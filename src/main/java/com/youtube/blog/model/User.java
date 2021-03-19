@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 @Entity
-@DynamicInsert // save(insert) 시 null인 컬럼은 insert하지 않는다.
+//@DynamicInsert // save(insert) 시 null인 컬럼은 insert하지 않는다.
 public class User {
 
     @Id //PK
@@ -34,9 +34,12 @@ public class User {
     @Column(nullable = false, length = 50)
     private String email;
 
-   @ColumnDefault("'user'")
-    private String role; //원래 Enum을 쓰는게 좋음 //admin, user, manager
+//   @ColumnDefault("'user'")
+    //private String role; //원래 Enum을 쓰는게 좋음 //admin, user, manager
 
-    @CreationTimestamp //시간 자동입력
+    @Enumerated(EnumType.STRING)
+    private RoleType role; //ADMIN, USER만 선택가능하게 함. BUT DB는 RoleType이 없으므로 어노테이션 설정
+
+   @CreationTimestamp //시간 자동입력
     private Timestamp createDate;
 }

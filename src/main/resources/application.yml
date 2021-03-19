@@ -29,7 +29,7 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create #non, update 가능. 프로젝트가 새로 실행될 때 create를 하기 위함
+      ddl-auto: update #non, update 가능. 프로젝트가 새로 실행될 때 create를 하기 위함
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl #@Entity 만들 때 class 변수 그대로 생성함
       use-new-id-generator-mappings: false #JPA가 사용하는 기본 넘버링 전략을 사용하지 않는다(시퀀스) -> GenerationType.IDENTITY를 한다.
