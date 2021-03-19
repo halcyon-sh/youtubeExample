@@ -4,14 +4,13 @@ import com.youtube.blog.model.RoleType;
 import com.youtube.blog.model.User;
 import com.youtube.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -21,6 +20,45 @@ public class DummyControllerTest {
 
     @Autowired // --> DummyControllerTest가 메모리에 올라갈 때 아래꺼도 같이 올라감 // 의존성 주입 -> DI
     private UserRepository userRepository;
+
+    @DeleteMapping("/dummy/user/{id}")
+    public String delete(@PathVariable int id){
+        try {
+            userRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            return "삭제실패. 해당 ID는 DB에 없습니다.";
+        }
+
+        return "삭제되었습니다. ID : " + id;
+
+    }
+
+    @Transactional
+    //Update는 PutMapping
+    @PutMapping("/dummy/user/{id}")
+    public User updateUser(@PathVariable int id, @RequestBody User requestUser) { //@RequestBody --> json형태
+   //json 데이터를 요청 -> Java Object(MessageConverter가 Jackson 라이브러리를 호출)로 변환해서 받음음
+        System.out.println("id : " + id);
+        System.out.println("password : " + requestUser.getPassword());
+        System.out.println("email : " + requestUser.getEmail());
+
+        User user = userRepository.findById(id).orElseThrow(()-> {
+            return new IllegalArgumentException("수정에 실패했습니다.");
+        });
+
+        user.setPassword(requestUser.getPassword());
+        user.setEmail(requestUser.getEmail());
+
+////////////////////////////// @Transactional를 쓰면 save하지 않아도 update가 됨. DB Transaction이 시작됨 -> 더티체킹!!!
+        // @Transactional는 컨트롤러 종료 시점에 commit 처리함
+        //userRepository.save(user);
+        //save함수는 id를 전달하지 않으면 insert를 해주고
+        //save함수는 id를 전달하면 해당 id에 대한 데이터가 있으면 update, 없으면 insert를 해준다.
+///////////////////////////// @Transactional
+
+        return user;
+    }
 
     @GetMapping("/dummy/users")
     public List<User> list() {
