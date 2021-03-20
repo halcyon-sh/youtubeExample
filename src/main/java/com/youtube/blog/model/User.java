@@ -25,7 +25,7 @@ public class User {
                                                         // Oracle이면 Sequence,  MySQL이면 auto-increment
     private int id; //시퀀스
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 30, unique = true)
     private String username;
 
     @Column(nullable = false, length = 100)

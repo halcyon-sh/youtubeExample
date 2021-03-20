@@ -15,11 +15,4 @@ public class TempControllerTest {
         return "/home.html";
     }
 
-    @GetMapping("/temp/jsp")
-    public String tempJsp() {
-        //yml 파일에서 prefix: /WEB-INF/views/
-        //             suffix: .jsp 세팅
-        //풀네임 : /WEB-INF/views/temp.jsp
-        return "temp";
-    }
 }
